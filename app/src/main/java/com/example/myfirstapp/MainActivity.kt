@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_second.*
 
 class MainActivity : AppCompatActivity() {
 
