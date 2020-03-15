@@ -1,6 +1,8 @@
 package com.example.myfirstapp
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +30,8 @@ class SecondFragment : Fragment() {
         btn_compute.setOnClickListener { result.setText( (input_lhs.text.toString().toDouble() +
                 input_rhs.text.toString().toDouble()).toString() ) }
 
-        val updateResult = { _: View, hasFocus: Boolean ->
-            if (!hasFocus) {
+        input_lhs.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
                 var lhsText: String = input_lhs.text.toString()
                 var rhsText: String = input_rhs.text.toString()
                 var lhsHint: String = input_lhs.hint.toString()
@@ -40,10 +42,29 @@ class SecondFragment : Fragment() {
                 var sum: Double = lhs + rhs
                 result.setText(sum.toString())
             }
-        }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
 
-        input_lhs.setOnFocusChangeListener(updateResult)
-        input_rhs.setOnFocusChangeListener(updateResult)
+        input_rhs.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                var lhsText: String = input_lhs.text.toString()
+                var rhsText: String = input_rhs.text.toString()
+                var lhsHint: String = input_lhs.hint.toString()
+                var rhsHint: String = input_rhs.hint.toString()
+
+                var lhs: Double = if (lhsText.isEmpty()) lhsHint.toDouble() else lhsText.toDouble()
+                var rhs: Double = if (rhsText.isEmpty()) rhsHint.toDouble() else rhsText.toDouble()
+                var sum: Double = lhs + rhs
+                result.setText(sum.toString())
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
 
         view.findViewById<Button>(R.id.button_second).setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
